@@ -57,6 +57,26 @@ class LinkedList {
     }
   }
 
+  pop(list = this.list) {
+    if (!list) return undefined;
+    else if (list.nextNode) {
+      if (!list.nextNode.nextNode) {
+        const secondList = list.nextNode;
+
+        list.nextNode = null;
+
+        return secondList;
+      }
+    } else if (!list.nextNode) {
+      const secondList = list;
+
+      this.list = null;
+
+      return secondList;
+    }
+    return this.pop(list.nextNode);
+  }
+
   print() {
     console.log(this.list);
   }
@@ -64,13 +84,14 @@ class LinkedList {
 
 const list = new LinkedList();
 
-list.append("dog");
-list.append("snake");
-list.append("goat");
-list.prepend("hamster");
+// list.append("dog");
+// list.append("snake");
+// list.append("goat");
+// list.prepend("hamster");
 // console.log(list.size());
 // console.log(list.head());
 // console.log(list.tail());
-console.log(list.at(0));
+// console.log(list.at(0));
 
-// list.print();
+console.log(list.pop());
+list.print();
