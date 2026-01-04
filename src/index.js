@@ -96,6 +96,16 @@ class LinkedList {
     return this.findIndex(value, list.nextNode, index);
   }
 
+  toString(list = this.list, listStringFormat = "") {
+    if (!this.list) return listStringFormat;
+
+    if (!list.nextNode) return `${listStringFormat}${list.nextNode}`;
+
+    listStringFormat += `(${list.value}) --> `;
+
+    return this.toString(list.nextNode, listStringFormat);
+  }
+
   print() {
     console.log(this.list);
   }
@@ -104,9 +114,11 @@ class LinkedList {
 const list = new LinkedList();
 
 list.append("dog");
+list.append("dog");
 list.append("snake");
 list.append("goat");
 list.prepend("hamster");
+list.prepend("grok");
 list.prepend("grok");
 // console.log(list.size());
 // console.log(list.head());
@@ -115,4 +127,4 @@ list.prepend("grok");
 
 // console.log(list.pop());
 // list.print();
-console.log(list.findIndex("grok"));
+console.log(list.toString());
