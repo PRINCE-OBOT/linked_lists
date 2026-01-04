@@ -99,11 +99,42 @@ class LinkedList {
   toString(list = this.list, listStringFormat = "") {
     if (!this.list) return listStringFormat;
 
-    if (!list.nextNode) return `${listStringFormat}${list.nextNode}`;
-
     listStringFormat += `(${list.value}) --> `;
 
+    if (!list.nextNode) return `${listStringFormat}${list.nextNode}`;
+
     return this.toString(list.nextNode, listStringFormat);
+  }
+
+  insertAt(index, ...values) {
+    if (index < 0) throw RangeError("Index below range");
+
+    if (this.list) {
+      if (index === 0) {
+        values.reverse().forEach((value) => this.prepend(value));
+      } else {
+        const rec = (list, depth = 0) => {
+          if (index - 1 === depth) {
+            if (list.nextNode) {
+              values.reverse().forEach((value) => {
+                list.nextNode = new Node(value, list.nextNode);
+              });
+            } else {
+              throw RangeError("Index above range");
+            }
+          } else {
+            depth++;
+            return rec(list.nextNode, depth);
+          }
+        };
+
+        rec(this.list);
+      }
+    } else {
+      if (index !== 0) throw RangeError("Index above range");
+
+      values.forEach((value) => this.append(value));
+    }
   }
 
   print() {
@@ -114,17 +145,17 @@ class LinkedList {
 const list = new LinkedList();
 
 list.append("dog");
-list.append("dog");
-list.append("snake");
 list.append("goat");
+// list.append("snake");
+list.insertAt(0, "grok", "beef");
 list.prepend("hamster");
-list.prepend("grok");
-list.prepend("grok");
+// list.prepend("grok");
+// list.prepend("grok");
 // console.log(list.size());
 // console.log(list.head());
 // console.log(list.tail());
 // console.log(list.at(0));
 
 // console.log(list.pop());
-// list.print();
+list.print();
 console.log(list.toString());
