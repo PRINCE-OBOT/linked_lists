@@ -10,28 +10,39 @@ class LinkedList {
     this.list = null;
   }
 
-  append(value, list = this.list) {
-    if (!list) {
-      list = new Node(value);
-    } else if (list.nextNode) {
-      this.append(value, list.nextNode);
+  append(value) {
+    if (!this.list) {
+      this.list = new Node(value);
     } else {
-      list.nextNode = new Node(value);
-    }
+      const recursive = (list) => {
+        if (list.nextNode) {
+          recursive(list.nextNode);
+        } else {
+          list.nextNode = new Node(value);
+        }
+      };
 
-    this.list = list;
+      recursive(this.list);
+    }
   }
 
   prepend(value) {
     this.list = new Node(value, this.list);
   }
 
-  size(numberOfNode = 1, list = this.list) {
-    if (list.nextNode) {
-      numberOfNode++;
-      return this.size(numberOfNode, list.nextNode);
+  size() {
+    if (!this.list) {
+      return 0;
+    } else {
+      const recursive = (list, numberOfNode) => {
+        if (list.nextNode) {
+          numberOfNode++;
+          return this.size(list.nextNode, numberOfNode);
+        }
+        return numberOfNode;
+      };
+      return recursive(this.list, 1);
     }
-    return numberOfNode;
   }
 
   head() {
@@ -46,94 +57,127 @@ class LinkedList {
       : list.value;
   }
 
-  at(index, list = this.list, depth = 0) {
-    if (!list.nextNode) {
-      return undefined;
-    } else if (index === depth) {
-      return list.value;
-    } else {
-      depth++;
-      return this.at(index, list.nextNode, depth);
+  at(index) {
+    if (index < 0 || !this.list) return undefined;
+    else {
+      const recursive = (list, depth) => {
+        if (index === depth) {
+          return list.value;
+        }
+
+        if (!list.nextNode) {
+          return undefined;
+        } else {
+          depth++;
+          return recursive(list.nextNode, depth);
+        }
+      };
+
+      return recursive(this.list, 0);
     }
   }
 
-  pop(list = this.list) {
-    if (!list) return undefined;
-    else if (list.nextNode) {
-      if (!list.nextNode.nextNode) {
-        const secondList = list.nextNode;
+  pop() {
+    if (!this.list) return undefined;
+    else {
+      const recursive = (list) => {
+        if (list.nextNode) {
+          if (!list.nextNode.nextNode) {
+            const secondList = list.nextNode;
 
-        list.nextNode = null;
+            list.nextNode = null;
 
-        return secondList;
-      }
-    } else if (!list.nextNode) {
-      const secondList = list;
+            return secondList;
+          }
+        } else {
+          const secondList = list;
 
-      this.list = null;
+          this.list = null;
 
-      return secondList;
+          return secondList;
+        }
+        return recursive(list.nextNode);
+      };
+
+      return recursive(this.list);
     }
-    return this.pop(list.nextNode);
   }
 
-  contains(value, list = this.list) {
-    if (list.value === value) {
-      return true;
-    }
-    if (!list.nextNode) return false;
+  contains(value) {
+    if (!this.list) return false;
+    else {
+      const recursive = (list) => {
+        if (list.value === value) {
+          return true;
+        }
+        if (!list.nextNode) return false;
 
-    return this.contains(value, list.nextNode);
+        return recursive(list.nextNode);
+      };
+      return recursive(this.list);
+    }
   }
 
-  findIndex(value, list = this.list, index = 0) {
-    if (value === list.value) {
-      return index;
-    }
-    if (!list.nextNode) return -1;
+  findIndex(value) {
+    if (!this.list) return -1;
+    else {
+      const recursive = (list, index) => {
+        if (list.value === value) {
+          return index;
+        }
+        if (!list.nextNode) return -1;
 
-    index++;
-    return this.findIndex(value, list.nextNode, index);
+        index++;
+        return recursive(list.nextNode, index);
+      };
+
+      return recursive(this.list, 0);
+    }
   }
 
-  toString(list = this.list, listStringFormat = "") {
-    if (!this.list) return listStringFormat;
+  toString() {
+    if (!this.list) return "";
+    else {
+      const recursive = (list, listStringFormat) => {
+        listStringFormat += `(${list.value}) -> `;
 
-    listStringFormat += `(${list.value}) --> `;
+        if (!list.nextNode) return `${listStringFormat}${list.nextNode}`;
 
-    if (!list.nextNode) return `${listStringFormat}${list.nextNode}`;
+        return recursive(list.nextNode, listStringFormat);
+      };
 
-    return this.toString(list.nextNode, listStringFormat);
+      return recursive(this.list, "");
+    }
   }
 
   insertAt(index, ...values) {
     if (index < 0) throw RangeError("Index below range");
 
-    if (this.list) {
+    if (!this.list) {
+        if (index !== 0) throw RangeError("Index above range");
+        
+      values.forEach((value) => this.append(value));
+    } else {
       if (index === 0) {
         values.reverse().forEach((value) => this.prepend(value));
-      } else {
-        const rec = (list, depth = 0) => {
-          if (index - 1 === depth) {
+    } else {
+        const recursive = (list, depth) => {
             if (list.nextNode) {
-              values.reverse().forEach((value) => {
-                list.nextNode = new Node(value, list.nextNode);
-              });
+                if (index === depth) {
+                    values.reverse().forEach((value) => {
+                        list.nextNode = new Node(value, list.nextNode);
+                    });
+                } else {
+                    depth++;
+                    return recursive(list.nextNode, depth);
+                }
             } else {
-              throw RangeError("Index above range");
-            }
-          } else {
-            depth++;
-            return rec(list.nextNode, depth);
+            throw RangeError("Index above range");
           }
         };
 
-        rec(this.list);
+        recursive(this.list, 1);
       }
-    } else {
-      if (index !== 0) throw RangeError("Index above range");
-
-      values.forEach((value) => this.append(value));
     }
   }
 
@@ -146,16 +190,18 @@ const list = new LinkedList();
 
 list.append("dog");
 list.append("goat");
-// list.append("snake");
-list.insertAt(0, "grok", "beef");
-list.prepend("hamster");
+list.append("snake");
+// list.insertAt(0, "grok", "beef");
+// list.prepend("hamster");
 // list.prepend("grok");
 // list.prepend("grok");
 // console.log(list.size());
 // console.log(list.head());
 // console.log(list.tail());
-// console.log(list.at(0));
+// console.log(list.at(1));
 
 // console.log(list.pop());
+// console.log(list.findIndex("gat"));
+list.insertAt(3, 'k')
 list.print();
 console.log(list.toString());
