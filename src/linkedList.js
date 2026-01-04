@@ -1,11 +1,6 @@
-class Node {
-  constructor(value = null, nextNode = null) {
-    this.value = value;
-    this.nextNode = nextNode;
-  }
-}
+import Node from "./node";
 
-class LinkedList {
+export default class LinkedList {
   constructor() {
     this.list = null;
   }
@@ -37,7 +32,7 @@ class LinkedList {
       const recursive = (list, numberOfNode) => {
         if (list.nextNode) {
           numberOfNode++;
-          return this.size(list.nextNode, numberOfNode);
+          return recursive(list.nextNode, numberOfNode);
         }
         return numberOfNode;
       };
@@ -49,12 +44,14 @@ class LinkedList {
     return this.list === null ? undefined : this.list.value;
   }
 
-  tail(list = this.list) {
-    return this.list === null
-      ? undefined
-      : list.nextNode
-      ? this.tail(list.nextNode)
-      : list.value;
+  tail() {
+    if (!this.list) return undefined;
+
+    const recursive = (list) => {
+      if (list.nextNode) return recursive(list.nextNode);
+      return list.value;
+    };
+    return recursive(this.list);
   }
 
   at(index) {
@@ -188,7 +185,7 @@ class LinkedList {
       throw RangeError("Index above range");
     } else {
       if (index === 0) {
-        const secondList = this.list.nextNode
+        const secondList = this.list.nextNode;
         this.list = secondList;
       } else {
         const recursive = (list, depth) => {
@@ -210,28 +207,7 @@ class LinkedList {
     }
   }
 
-  print() {
+  display() {
     console.log(this.list);
   }
 }
-
-const list = new LinkedList();
-
-list.append("dog");
-list.append("goat");
-list.append("snake");
-// list.insertAt(0, "grok", "beef");
-// list.prepend("hamster");
-// list.prepend("grok");
-// list.prepend("grok");
-// console.log(list.size());
-// console.log(list.head());
-// console.log(list.tail());
-// console.log(list.at(1));
-
-// console.log(list.pop());
-// console.log(list.findIndex("gat"));
-list.insertAt(1, "k", 8);
-list.removeAt(0)
-list.print();
-console.log(list.toString());
