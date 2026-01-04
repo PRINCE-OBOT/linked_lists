@@ -86,6 +86,16 @@ class LinkedList {
     return this.contains(value, list.nextNode);
   }
 
+  findIndex(value, list = this.list, index = 0) {
+    if (value === list.value) {
+      return index;
+    }
+    if (!list.nextNode) return -1;
+
+    index++;
+    return this.findIndex(value, list.nextNode, index);
+  }
+
   print() {
     console.log(this.list);
   }
@@ -105,4 +115,4 @@ list.prepend("grok");
 
 // console.log(list.pop());
 // list.print();
-console.log(list.contains('snak'))
+console.log(list.findIndex("grok"));
