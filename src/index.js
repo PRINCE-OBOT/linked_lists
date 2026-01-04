@@ -154,24 +154,53 @@ class LinkedList {
     if (index < 0) throw RangeError("Index below range");
 
     if (!this.list) {
-        if (index !== 0) throw RangeError("Index above range");
-        
+      if (index !== 0) throw RangeError("Index above range");
+
       values.forEach((value) => this.append(value));
     } else {
       if (index === 0) {
         values.reverse().forEach((value) => this.prepend(value));
-    } else {
+      } else {
         const recursive = (list, depth) => {
-            if (list.nextNode) {
-                if (index === depth) {
-                    values.reverse().forEach((value) => {
-                        list.nextNode = new Node(value, list.nextNode);
-                    });
-                } else {
-                    depth++;
-                    return recursive(list.nextNode, depth);
-                }
+          if (list.nextNode) {
+            if (index === depth) {
+              values.reverse().forEach((value) => {
+                list.nextNode = new Node(value, list.nextNode);
+              });
             } else {
+              depth++;
+              return recursive(list.nextNode, depth);
+            }
+          } else {
+            throw RangeError("Index above range");
+          }
+        };
+
+        recursive(this.list, 1);
+      }
+    }
+  }
+
+  removeAt(index) {
+    if (index < 0) throw RangeError("Index below range");
+
+    if (!this.list) {
+      throw RangeError("Index above range");
+    } else {
+      if (index === 0) {
+        const secondList = this.list.nextNode
+        this.list = secondList;
+      } else {
+        const recursive = (list, depth) => {
+          if (list.nextNode) {
+            if (index === depth) {
+              const secondList = list.nextNode.nextNode;
+              list.nextNode = secondList;
+            } else {
+              depth++;
+              return recursive(list.nextNode, depth);
+            }
+          } else {
             throw RangeError("Index above range");
           }
         };
@@ -202,6 +231,7 @@ list.append("snake");
 
 // console.log(list.pop());
 // console.log(list.findIndex("gat"));
-list.insertAt(3, 'k')
+list.insertAt(1, "k", 8);
+list.removeAt(0)
 list.print();
 console.log(list.toString());
