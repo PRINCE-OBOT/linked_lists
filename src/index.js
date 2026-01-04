@@ -77,6 +77,15 @@ class LinkedList {
     return this.pop(list.nextNode);
   }
 
+  contains(value, list = this.list) {
+    if (list.value === value) {
+      return true;
+    }
+    if (!list.nextNode) return false;
+
+    return this.contains(value, list.nextNode);
+  }
+
   print() {
     console.log(this.list);
   }
@@ -84,14 +93,16 @@ class LinkedList {
 
 const list = new LinkedList();
 
-// list.append("dog");
-// list.append("snake");
-// list.append("goat");
-// list.prepend("hamster");
+list.append("dog");
+list.append("snake");
+list.append("goat");
+list.prepend("hamster");
+list.prepend("grok");
 // console.log(list.size());
 // console.log(list.head());
 // console.log(list.tail());
 // console.log(list.at(0));
 
-console.log(list.pop());
-list.print();
+// console.log(list.pop());
+// list.print();
+console.log(list.contains('snak'))
