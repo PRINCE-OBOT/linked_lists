@@ -4,12 +4,8 @@ const list = new LinkedList();
 
 list.append("dog");
 list.append("cat");
-list.append("parrot");
-list.append("hamster");
-list.append("snake");
-list.append("turtle");
 
-list.insertAt(3, 100, 59);
+list.insertAt(1, "mirror", "socket");
 
 list.prepend("Chair");
 
@@ -19,11 +15,11 @@ console.log(list.head());
 
 console.log(list.tail());
 
-console.log(list.at(4));
+console.log(list.at(2));
 
 console.log(list.pop());
 
-console.log(list.findIndex("snake"));
+console.log(list.findIndex("socket"));
 
 console.log(list.toString());
 
