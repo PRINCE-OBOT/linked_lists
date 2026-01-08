@@ -83,6 +83,10 @@ class HashMap {
       .reduce((acc, bucket) => acc + new LinkedList(bucket).size(), 0);
   }
 
+  clear() {
+    this.arrOfBucket.splice(0);
+  }
+
   display() {
     console.log(this.arrOfBucket);
   }
