@@ -1,19 +1,19 @@
 import Node from "./node";
 
 export default class LinkedList {
-  constructor() {
-    this.list = null;
+  constructor(list) {
+    this.list = list;
   }
 
-  append(value) {
+  append(key, value) {
     if (!this.list) {
-      this.list = new Node(value);
+      this.list = new Node(key, value);
     } else {
       const recursive = (list) => {
         if (list.nextNode) {
           recursive(list.nextNode);
         } else {
-          list.nextNode = new Node(value);
+          list.nextNode = new Node(key, value);
         }
       };
 
@@ -100,11 +100,11 @@ export default class LinkedList {
     }
   }
 
-  contains(value) {
+  contains(key) {
     if (!this.list) return false;
     else {
       const recursive = (list) => {
-        if (list.value === value) {
+        if (list.key === key) {
           return true;
         }
         if (!list.nextNode) return false;
@@ -115,11 +115,24 @@ export default class LinkedList {
     }
   }
 
-  findIndex(value) {
+  update(key, value) {
+    const recursive = (list) => {
+      if (list.key === key) {
+        list.value = value;
+      }
+      if (!list.nextNode) return false;
+
+      return recursive(list.nextNode);
+    };
+
+    return recursive(this.list);
+  }
+
+  findIndex(key) {
     if (!this.list) return -1;
     else {
       const recursive = (list, index) => {
-        if (list.value === value) {
+        if (list.key === key) {
           return index;
         }
         if (!list.nextNode) return -1;
