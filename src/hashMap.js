@@ -19,7 +19,7 @@ class HashMap {
       hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % this.capacity;
     }
 
-    return hashCode;
+    return 0;
   }
 
   set(key, value) {
@@ -65,6 +65,22 @@ class HashMap {
     const list = new LinkedList(this.arrOfBucket[hashCode]);
 
     return list.contains(key);
+  }
+
+  remove(key) {
+    const hashCode = this.hash(key);
+
+    if (!this.arrOfBucket[hashCode]) return false;
+
+    const list = new LinkedList(this.arrOfBucket[hashCode]);
+
+    const index = list.findIndex(key);
+
+    if (index === -1) return false;
+    else {
+      list.removeAt(index, this.arrOfBucket, hashCode);
+      return true;
+    }
   }
 
   display() {

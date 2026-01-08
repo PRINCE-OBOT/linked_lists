@@ -204,7 +204,7 @@ export default class LinkedList {
     }
   }
 
-  removeAt(index) {
+  removeAt(index, arrOfBucket, hashCode) {
     if (index < 0) throw RangeError("Index below range");
 
     if (!this.list) {
@@ -212,7 +212,7 @@ export default class LinkedList {
     } else {
       if (index === 0) {
         const secondList = this.list.nextNode;
-        this.list = secondList;
+        arrOfBucket[hashCode] = secondList;
       } else {
         const recursive = (list, depth) => {
           if (list.nextNode) {
