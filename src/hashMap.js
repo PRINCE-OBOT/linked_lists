@@ -90,6 +90,11 @@ class HashMap {
   display() {
     console.log(this.arrOfBucket);
   }
+
+  keys() {
+    const list = new LinkedList(this.arrOfBucket);
+    return list.keys();
+  }
 }
 
 export default HashMap;

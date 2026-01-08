@@ -7,6 +7,7 @@ console.log(hashMap.set("okay", "We are good"));
 console.log(hashMap.set("joh", "We are very happy"));
 console.log(hashMap.set("away", "growing are very happy"));
 // console.log(hashMap.remove("oky"));
-console.log(hashMap.clear())
+// console.log(hashMap.clear())
+console.log(hashMap.keys())
 
 hashMap.display()
