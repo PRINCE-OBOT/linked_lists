@@ -120,7 +120,20 @@ export default class LinkedList {
       if (list.key === key) {
         list.value = value;
       }
-      if (!list.nextNode) return false;
+      if (!list.nextNode) return;
+
+      recursive(list.nextNode);
+    };
+
+    recursive(this.list);
+  }
+
+  get(key) {
+    const recursive = (list) => {
+      if (list.key === key) {
+        return list.value;
+      }
+      if (!list.nextNode) return null;
 
       return recursive(list.nextNode);
     };

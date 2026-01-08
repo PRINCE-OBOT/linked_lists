@@ -25,27 +25,42 @@ class HashMap {
   set(key, value) {
     const hashCode = this.hash(key);
 
+    if (!this.arrOfBucket[hashCode])
+      this.arrOfBucket[hashCode] = new Node(key, value);
+
     const list = new LinkedList(this.arrOfBucket[hashCode]);
 
-    if (this.arrOfBucket[hashCode]) {
-      const contains = list.contains(key);
+    const contains = list.contains(key);
 
-      if (contains) {
-        list.update(key, value);
-      } else {
-        const size = list.size();
+    if (contains) {
+      list.update(key, value);
+    } else {
+      const size = list.size();
 
-        if (size > this.capacity) {
-          this.capacityNew = this.capacityNew + this.capacity;
-        }
-
-        list.append(key, value);
+      if (size > this.capacityNew * this.loadFactor) {
+        this.capacityNew = this.capacityNew + this.capacity;
       }
 
-      list.display();
-    } else {
-      this.arrOfBucket[hashCode] = new Node(key, value);
+      list.append(key, value);
     }
+
+    list.display();
+  }
+
+  get(key) {
+    const hashCode = this.hash(key);
+
+    if (!this.arrOfBucket[hashCode]) return null;
+
+    const list = new LinkedList(this.arrOfBucket[hashCode]);
+
+    return list.get(key);
+  }
+
+  
+
+  display(){
+    console.log(this.arrOfBucket)
   }
 }
 
