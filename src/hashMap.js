@@ -57,10 +57,18 @@ class HashMap {
     return list.get(key);
   }
 
-  
+  has(key) {
+    const hashCode = this.hash(key);
 
-  display(){
-    console.log(this.arrOfBucket)
+    if (!this.arrOfBucket[hashCode]) return false;
+
+    const list = new LinkedList(this.arrOfBucket[hashCode]);
+
+    return list.contains(key);
+  }
+
+  display() {
+    console.log(this.arrOfBucket);
   }
 }
 
