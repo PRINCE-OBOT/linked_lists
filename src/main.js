@@ -9,6 +9,6 @@ console.log(hashMap.set("away", "growing are very happy"));
 // console.log(hashMap.remove("oky"));
 // console.log(hashMap.clear())
 console.log(hashMap.keys())
-console.log(hashMap.values())
+console.log(hashMap.entries())
 
 hashMap.display()
