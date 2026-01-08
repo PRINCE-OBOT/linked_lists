@@ -93,7 +93,12 @@ class HashMap {
 
   keys() {
     const list = new LinkedList(this.arrOfBucket);
-    return list.keys();
+    return list.keys('key');
+  }
+
+  values() {
+    const list = new LinkedList(this.arrOfBucket);
+    return list.keys("value");
   }
 }
 

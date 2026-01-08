@@ -115,11 +115,11 @@ export default class LinkedList {
     }
   }
 
-  keys() {
-    const allKeys = [];
+  keys(key) {
+    const arrOfResult = [];
 
     const recursive = (node) => {
-      allKeys.push(node.key);
+      arrOfResult.push(node[key]);
 
       if (!node.nextNode) return;
 
@@ -128,7 +128,7 @@ export default class LinkedList {
 
     this.list.filter(Boolean).forEach(recursive);
 
-    return allKeys;
+    return arrOfResult;
   }
 
   update(key, value) {
