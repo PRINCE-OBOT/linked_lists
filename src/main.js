@@ -15,6 +15,7 @@ test.set("jacket", "blue");
 test.set("kite", "pink");
 test.set("lion", "golden");
 test.set("moon", "wait");
+test.set("glue", "wait");
 
 console.log(test.length())
 
