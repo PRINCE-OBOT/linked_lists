@@ -16,7 +16,8 @@ class HashMap {
     const primeNumber = 31;
 
     for (let i = 0; i < key.length; i++) {
-      hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % this.capacity;
+      hashCode =
+        (primeNumber * hashCode + key.charCodeAt(i)) % this.capacityNew;
     }
 
     return hashCode;
@@ -35,16 +36,12 @@ class HashMap {
     if (contains) {
       list.update(key, value);
     } else {
-      const size = list.size();
+      list.append(key, value);
 
-      if (size > this.capacityNew * this.loadFactor) {
+      if (this.length() > this.capacityNew * this.loadFactor) {
         this.capacityNew = this.capacityNew + this.capacity;
       }
-
-      list.append(key, value);
     }
-
-    list.display();
   }
 
   get(key) {
@@ -87,10 +84,6 @@ class HashMap {
     this.arrOfBucket.splice(0);
   }
 
-  display() {
-    console.log(this.arrOfBucket);
-  }
-
   keys() {
     const list = new LinkedList(this.arrOfBucket);
     return list.keyValue("key");
@@ -104,6 +97,15 @@ class HashMap {
   entries() {
     const list = new LinkedList(this.arrOfBucket);
     return list.entries();
+  }
+
+  display() {
+    console.log(
+      "Array of Bucket",
+      this.arrOfBucket,
+      "New Capacity",
+      this.capacityNew
+    );
   }
 }
 
