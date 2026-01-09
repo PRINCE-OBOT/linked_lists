@@ -100,11 +100,11 @@ export default class LinkedList {
     }
   }
 
-  contains(key) {
+  contains(value) {
     if (!this.list) return false;
     else {
       const recursive = (node) => {
-        if (node.key === key) {
+        if (node.value === value) {
           return true;
         }
         if (!node.nextNode) return false;
@@ -115,69 +115,11 @@ export default class LinkedList {
     }
   }
 
-  keyValue(key) {
-    const arrOfKeyValue = [];
-
-    const recursive = (node) => {
-      arrOfKeyValue.push(node[key]);
-
-      if (!node.nextNode) return;
-
-      return recursive(node.nextNode);
-    };
-
-    this.list.filter(Boolean).forEach(recursive);
-
-    return arrOfKeyValue;
-  }
-
-  entries() {
-    const arrOfKeyValue = [];
-
-    const recursive = (node) => {
-      arrOfKeyValue.push([node.key, node.value]);
-
-      if (!node.nextNode) return;
-
-      return recursive(node.nextNode);
-    };
-
-    this.list.filter(Boolean).forEach(recursive);
-
-    return arrOfKeyValue;
-  }
-
-  update(key, value) {
-    const recursive = (node) => {
-      if (node.key === key) {
-        node.value = value;
-      }
-      if (!node.nextNode) return;
-
-      recursive(node.nextNode);
-    };
-
-    recursive(this.list);
-  }
-
-  get(key) {
-    const recursive = (node) => {
-      if (node.key === key) {
-        return node.value;
-      }
-      if (!node.nextNode) return null;
-
-      return recursive(node.nextNode);
-    };
-
-    return recursive(this.list);
-  }
-
-  findIndex(key) {
+  findIndex(value) {
     if (!this.list) return -1;
     else {
       const recursive = (node, index) => {
-        if (node.key === key) {
+        if (node.value === value) {
           return index;
         }
         if (!node.nextNode) return -1;
@@ -236,7 +178,7 @@ export default class LinkedList {
     }
   }
 
-  removeAt(index, arrOfBucket, hashCode) {
+  removeAt(index) {
     if (index < 0) throw RangeError("Index below range");
 
     if (!this.list) {
@@ -244,7 +186,7 @@ export default class LinkedList {
     } else {
       if (index === 0) {
         const secondList = this.list.nextNode;
-        arrOfBucket[hashCode] = secondList;
+        this.list = secondList;
       } else {
         const recursive = (list, depth) => {
           if (list.nextNode) {
