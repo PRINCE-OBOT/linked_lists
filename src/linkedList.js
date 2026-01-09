@@ -57,16 +57,16 @@ export default class LinkedList {
   at(index) {
     if (index < 0 || !this.list) return undefined;
     else {
-      const recursive = (list, depth) => {
+      const recursive = (node, depth) => {
         if (index === depth) {
-          return list.value;
+          return node.value;
         }
 
-        if (!list.nextNode) {
+        if (!node.nextNode) {
           return undefined;
         } else {
           depth++;
-          return recursive(list.nextNode, depth);
+          return recursive(node.nextNode, depth);
         }
       };
 
@@ -77,23 +77,23 @@ export default class LinkedList {
   pop() {
     if (!this.list) return undefined;
     else {
-      const recursive = (list) => {
-        if (list.nextNode) {
-          if (!list.nextNode.nextNode) {
-            const secondList = list.nextNode;
+      const recursive = (node) => {
+        if (node.nextNode) {
+          if (!node.nextNode.nextNode) {
+            const secondList = node.nextNode;
 
-            list.nextNode = null;
+            node.nextNode = null;
 
             return secondList;
           }
         } else {
-          const secondList = list;
+          const secondList = node;
 
           this.list = null;
 
           return secondList;
         }
-        return recursive(list.nextNode);
+        return recursive(node.nextNode);
       };
 
       return recursive(this.list);
@@ -158,15 +158,15 @@ export default class LinkedList {
       if (index === 0) {
         values.reverse().forEach((value) => this.prepend(value));
       } else {
-        const recursive = (list, depth) => {
-          if (list.nextNode) {
+        const recursive = (node, depth) => {
+          if (node.nextNode) {
             if (index === depth) {
               values.reverse().forEach((value) => {
-                list.nextNode = new Node(value, list.nextNode);
+                node.nextNode = new Node(value, node.nextNode);
               });
             } else {
               depth++;
-              return recursive(list.nextNode, depth);
+              return recursive(node.nextNode, depth);
             }
           } else {
             throw RangeError("Index above range");
@@ -188,14 +188,14 @@ export default class LinkedList {
         const secondList = this.list.nextNode;
         this.list = secondList;
       } else {
-        const recursive = (list, depth) => {
-          if (list.nextNode) {
+        const recursive = (node, depth) => {
+          if (node.nextNode) {
             if (index === depth) {
-              const secondList = list.nextNode.nextNode;
-              list.nextNode = secondList;
+              const secondList = node.nextNode.nextNode;
+              node.nextNode = secondList;
             } else {
               depth++;
-              return recursive(list.nextNode, depth);
+              return recursive(node.nextNode, depth);
             }
           } else {
             throw RangeError("Index above range");
